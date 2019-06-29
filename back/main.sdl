@@ -1,0 +1,115 @@
+domain furb
+
+service basico {
+    endpoints {
+        // add actions, queries, events and signals here
+        "Obtém a quantidade de saldo do produto"
+        query getSaldo {
+        	in {
+        		"ID do produto"
+        		idProduto : string 
+        	} 
+        	out{
+        		"Quantidade encontrada"
+        		qtd: double 
+        	}
+        }
+        
+        "Obtém o valor total gasto pelo cliente em pedidos"
+        query getGastoTotalCliente {
+        	in {
+        		"Id do cliente"
+        		idCliente: string
+        	}
+        	out {
+        		"Total"
+        		total: double
+        	}
+        }
+        
+        "Verifica se o cliente já efetuou um pedido e habilita o crédito"
+        action refreshStatusCredito{
+        	in{
+        		"Id do cliente"
+        		idCliente: string
+        	}
+        	out{
+        	}
+        }
+        
+        "Atualiza a quantidade de pedidos realizado pelo cliente"
+        action refreshQtdPedidosCliente{
+        	in{
+				"Id do cliente"
+        		idCliente: string
+        	}
+        	out{
+        		"Quantidade de pedidos realizado pelo cliente"
+        		qtd: integer
+        	}
+        }
+    }
+    entities {
+	    "Entidade que representa o cliente"
+		fixed entity cliente{
+		    "Chave primaria"
+		    id: uuid?
+		    "Nome do cliente"
+		    nome: string
+		    "Data de nascimento"
+		    dataNascimento: date
+		    "Tem credito habilitado"
+		    creditoHabilitado: boolean? default: false
+		    "CPF do cliente"
+		    cpf: string
+		    "Quantidade de pedidos"
+		    qtPedidos: integer
+		}
+		
+		"Produto"
+		fixed entity produto{
+		    "Chave primária"
+		    id: uuid?
+		    "descrição"
+		    descricao: string
+		    "valor unitário"
+		    valorUnitario: double
+		}
+		
+		"ItemPedido"
+		fixed entity itemPedido{
+			"Chave primaria"
+		    id: uuid?
+		    "Item do Item Pedido"
+		    produto: produto
+		    "Quantidade do Item"
+		    quantidade: double
+		    "Valor total"
+		    valorTotal: double
+		}
+		
+		"Pedido" 
+		fixed entity pedido{ 
+		    "Chave primaria"
+		    id: uuid?
+		    "Data do pedido"
+		    data: date
+		    "Observações do pedido"
+		    observacoes: string?
+		    "Cliente do pedido"
+		    cliente: cliente 
+		    "Itens do pedido"
+		    itens: itemPedido*
+		} 
+		
+		"MovimentoEstoque"
+		fixed entity movimentoEstoque{
+			"Chave primaria"
+		    id: uuid?
+			"Produto"
+		    produto: produto
+		    "Quantidade"
+		    quantidade: double
+		}	
+    }
+}

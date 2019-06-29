@@ -1,0 +1,7 @@
+<!-- GENERATED ENTITIES: 2019-06-29 04:49:22:427 -->
+<class>br.com.senior.furb.basico.ClienteEntity</class>
+<class>br.com.senior.furb.basico.ProdutoEntity</class>
+<class>br.com.senior.furb.basico.ItemPedidoEntity</class>
+<class>br.com.senior.furb.basico.PedidoEntity</class>
+<class>br.com.senior.furb.basico.Pedido_ItensEntity</class>
+<class>br.com.senior.furb.basico.MovimentoEstoqueEntity</class>

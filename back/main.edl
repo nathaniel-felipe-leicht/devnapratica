@@ -1,0 +1,38 @@
+domain furb
+
+entities {
+	generateExtraResources : true
+    securityType : secure
+	enumType : ordinal
+}
+
+service basico { 
+	entities{
+		
+		entity movimentoEstoque{
+			relationships{
+				ManyToOne(produto){
+					type: aggregation
+				}
+			}
+		}
+		
+		entity itemPedido{
+			relationships{
+				ManyToOne(produto){
+					type: aggregation
+				}
+			}
+		}
+        entity pedido{
+            relationships{
+                OneToMany(itens){
+                	type: aggregation
+                }
+                ManyToOne(cliente){
+                    type: aggregation
+                }
+            }
+        }
+    }
+}

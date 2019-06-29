@@ -1,0 +1,1087 @@
+<xsd:schema
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+    xmlns="http://www.senior.com.br/furb/basico"
+    targetNamespace="http://www.senior.com.br/furb/basico"
+    elementFormDefault="qualified">
+    
+    <xsd:attribute name="deprecated" type="xsd:string" default=""/>
+    <xsd:attribute name="anonymous" type="xsd:boolean" default="false"/>
+    
+    <xsd:attribute name="i18n" type="xsd:boolean" default="false"/>
+    
+    <!-- Public types -->
+    <xsd:complexType name="cliente">
+        <xsd:sequence>
+            <xsd:element name="id" type="xsd:uuid" minOccurs="0" maxOccurs="1"  readOnly="false">
+            </xsd:element>
+            <xsd:element name="nome" type="xsd:string" minOccurs="1" maxOccurs="1"  readOnly="false">
+            </xsd:element>
+            <xsd:element name="dataNascimento" type="xsd:date" minOccurs="1" maxOccurs="1"  readOnly="false">
+            </xsd:element>
+            <xsd:element name="creditoHabilitado" type="xsd:boolean" minOccurs="0" maxOccurs="1" default="false" readOnly="false">
+            </xsd:element>
+            <xsd:element name="cpf" type="xsd:string" minOccurs="1" maxOccurs="1"  readOnly="false">
+            </xsd:element>
+            <xsd:element name="qtPedidos" type="xsd:long" minOccurs="1" maxOccurs="1"  readOnly="false">
+            </xsd:element>
+        </xsd:sequence>
+    </xsd:complexType>
+    <xsd:complexType name="produto">
+        <xsd:sequence>
+            <xsd:element name="id" type="xsd:uuid" minOccurs="0" maxOccurs="1"  readOnly="false">
+            </xsd:element>
+            <xsd:element name="descricao" type="xsd:string" minOccurs="1" maxOccurs="1"  readOnly="false">
+            </xsd:element>
+            <xsd:element name="valorUnitario" type="xsd:double" minOccurs="1" maxOccurs="1"  readOnly="false">
+            </xsd:element>
+        </xsd:sequence>
+    </xsd:complexType>
+    <xsd:complexType name="itemPedido">
+        <xsd:sequence>
+            <xsd:element name="id" type="xsd:uuid" minOccurs="0" maxOccurs="1"  readOnly="false">
+            </xsd:element>
+            <xsd:element name="produto" type="produto" minOccurs="1" maxOccurs="1"  readOnly="false">
+            </xsd:element>
+            <xsd:element name="quantidade" type="xsd:double" minOccurs="1" maxOccurs="1"  readOnly="false">
+            </xsd:element>
+            <xsd:element name="valorTotal" type="xsd:double" minOccurs="1" maxOccurs="1"  readOnly="false">
+            </xsd:element>
+        </xsd:sequence>
+    </xsd:complexType>
+    <xsd:complexType name="pedido">
+        <xsd:sequence>
+            <xsd:element name="id" type="xsd:uuid" minOccurs="0" maxOccurs="1"  readOnly="false">
+            </xsd:element>
+            <xsd:element name="data" type="xsd:date" minOccurs="1" maxOccurs="1"  readOnly="false">
+            </xsd:element>
+            <xsd:element name="observacoes" type="xsd:string" minOccurs="0" maxOccurs="1"  readOnly="false">
+            </xsd:element>
+            <xsd:element name="cliente" type="cliente" minOccurs="1" maxOccurs="1"  readOnly="false">
+            </xsd:element>
+            <!-- collection wrapper for itens -->
+            <xsd:element name="itens" minOccurs="1" maxOccurs="1">
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element name="item" type="itemPedido" minOccurs="1" maxOccurs="unbounded"/>
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>
+        </xsd:sequence>
+    </xsd:complexType>
+    <xsd:complexType name="movimentoEstoque">
+        <xsd:sequence>
+            <xsd:element name="id" type="xsd:uuid" minOccurs="0" maxOccurs="1"  readOnly="false">
+            </xsd:element>
+            <xsd:element name="produto" type="produto" minOccurs="1" maxOccurs="1"  readOnly="false">
+            </xsd:element>
+            <xsd:element name="quantidade" type="xsd:double" minOccurs="1" maxOccurs="1"  readOnly="false">
+            </xsd:element>
+        </xsd:sequence>
+    </xsd:complexType>
+    <xsd:simpleType name="userNotificationKind">
+        <xsd:restriction base="xsd:string">
+            <xsd:enumeration value="Operational"/>
+            <xsd:enumeration value="Management"/>
+            <xsd:enumeration value="News"/>
+        </xsd:restriction>
+     </xsd:simpleType>
+    <xsd:simpleType name="userNotificationPriority">
+        <xsd:restriction base="xsd:string">
+            <xsd:enumeration value="Error"/>
+            <xsd:enumeration value="Alert"/>
+            <xsd:enumeration value="None"/>
+        </xsd:restriction>
+     </xsd:simpleType>
+    <xsd:complexType name="notifyUserEventPayload">
+        <xsd:sequence>
+            <xsd:element name="notificationClass" type="xsd:string" minOccurs="0" maxOccurs="1"  readOnly="false">
+            </xsd:element>
+            <xsd:element name="notificationOrigin" type="xsd:string" minOccurs="0" maxOccurs="1"  readOnly="false">
+            </xsd:element>
+            <xsd:element name="notificationKind" type="userNotificationKind" minOccurs="1" maxOccurs="1"  readOnly="false">
+            </xsd:element>
+            <xsd:element name="notificationPriority" type="userNotificationPriority" minOccurs="1" maxOccurs="1"  readOnly="false">
+            </xsd:element>
+            <xsd:element name="notificationSubject" type="xsd:string" minOccurs="1" maxOccurs="1"  readOnly="false">
+            </xsd:element>
+            <xsd:element name="notificationContent" type="xsd:string" minOccurs="1" maxOccurs="1"  readOnly="false">
+            </xsd:element>
+            <xsd:element name="sourceDomain" type="xsd:string" minOccurs="1" maxOccurs="1"  readOnly="false">
+            </xsd:element>
+            <xsd:element name="sourceService" type="xsd:string" minOccurs="1" maxOccurs="1"  readOnly="false">
+            </xsd:element>
+            <xsd:element name="destinationUser" type="xsd:string" minOccurs="1" maxOccurs="1"  readOnly="false">
+            </xsd:element>
+            <xsd:element name="link" type="xsd:string" minOccurs="0" maxOccurs="1"  readOnly="false">
+            </xsd:element>
+        </xsd:sequence>
+    </xsd:complexType>
+    <xsd:simpleType name="eventEmailFormat">
+        <xsd:restriction base="xsd:string">
+            <xsd:enumeration value="HTML"/>
+            <xsd:enumeration value="PLAIN_TEXT"/>
+        </xsd:restriction>
+     </xsd:simpleType>
+    <xsd:complexType name="emailNotifyUserEventPayload">
+        <xsd:complexContent>
+            <xsd:extension base="notifyUserEventPayload">
+                <xsd:sequence>
+                    <xsd:element name="from" type="xsd:string" minOccurs="1" maxOccurs="1"  readOnly="false">
+                    </xsd:element>
+                    <!-- collection wrapper for sendTo -->
+                    <xsd:element name="sendTo" minOccurs="0" maxOccurs="1">
+                        <xsd:complexType>
+                            <xsd:sequence>
+                                <xsd:element name="item" type="xsd:string" minOccurs="0" maxOccurs="unbounded"/>
+                            </xsd:sequence>
+                        </xsd:complexType>
+                    </xsd:element>
+                    <xsd:element name="format" type="eventEmailFormat" minOccurs="0" maxOccurs="1"  readOnly="false">
+                    </xsd:element>
+                </xsd:sequence>
+            </xsd:extension>
+        </xsd:complexContent>
+    </xsd:complexType>
+    <xsd:complexType name="pushNotifyUserEventPayload">
+        <xsd:complexContent>
+            <xsd:extension base="notifyUserEventPayload">
+                <xsd:sequence>
+                    <xsd:element name="applicationId" type="xsd:string" minOccurs="1" maxOccurs="1"  readOnly="false">
+                    </xsd:element>
+                </xsd:sequence>
+            </xsd:extension>
+        </xsd:complexContent>
+    </xsd:complexType>
+    <xsd:complexType name="blobReference">
+        <xsd:sequence>
+            <xsd:element name="domainName" type="xsd:string" minOccurs="0" maxOccurs="1"  readOnly="false">
+            </xsd:element>
+            <xsd:element name="serviceName" type="xsd:string" minOccurs="0" maxOccurs="1"  readOnly="false">
+            </xsd:element>
+            <xsd:element name="targetObjectId" type="xsd:string" minOccurs="1" maxOccurs="1"  readOnly="false">
+            </xsd:element>
+            <xsd:element name="targetCopyId" type="xsd:string" minOccurs="0" maxOccurs="1"  readOnly="false">
+            </xsd:element>
+        </xsd:sequence>
+    </xsd:complexType>
+    <xsd:complexType name="basicErrorPayload">
+        <xsd:sequence>
+            <xsd:element name="message" type="xsd:string" minOccurs="0" maxOccurs="1"  readOnly="false">
+            </xsd:element>
+            <xsd:element name="errorCode" type="xsd:string" minOccurs="0" maxOccurs="1"  readOnly="false">
+            </xsd:element>
+        </xsd:sequence>
+    </xsd:complexType>
+    <xsd:simpleType name="fieldType">
+        <xsd:restriction base="xsd:string">
+            <xsd:enumeration value="BINARY"/>
+            <xsd:enumeration value="BOOLEAN"/>
+            <xsd:enumeration value="DATE"/>
+            <xsd:enumeration value="DATETIME"/>
+            <xsd:enumeration value="DOUBLE"/>
+            <xsd:enumeration value="ENUM"/>
+            <xsd:enumeration value="INTEGER"/>
+            <xsd:enumeration value="MONEY"/>
+            <xsd:enumeration value="STRING"/>
+            <xsd:enumeration value="TIME"/>
+        </xsd:restriction>
+     </xsd:simpleType>
+    <xsd:simpleType name="fileFormat">
+        <xsd:restriction base="xsd:string">
+            <xsd:enumeration value="CSV"/>
+            <xsd:enumeration value="FLAT"/>
+            <xsd:enumeration value="JSON"/>
+            <xsd:enumeration value="XML"/>
+        </xsd:restriction>
+     </xsd:simpleType>
+    <xsd:simpleType name="hookFunction">
+        <xsd:restriction base="xsd:string">
+            <xsd:enumeration value="BEFORE_PARSE"/>
+            <xsd:enumeration value="BEFORE_CONVERSION"/>
+            <xsd:enumeration value="ON_ERROR"/>
+            <xsd:enumeration value="VALIDATE"/>
+        </xsd:restriction>
+     </xsd:simpleType>
+    <xsd:simpleType name="eventType">
+        <xsd:restriction base="xsd:string">
+            <xsd:enumeration value="CHUNK"/>
+            <xsd:enumeration value="DOWNLOAD"/>
+            <xsd:enumeration value="ERROR"/>
+            <xsd:enumeration value="FINISH"/>
+            <xsd:enumeration value="START"/>
+        </xsd:restriction>
+     </xsd:simpleType>
+    <xsd:simpleType name="errorStrategy">
+        <xsd:restriction base="xsd:string">
+            <xsd:enumeration value="CALL_SCRIPT"/>
+            <xsd:enumeration value="IGNORE"/>
+            <xsd:enumeration value="STOP"/>
+        </xsd:restriction>
+     </xsd:simpleType>
+    <xsd:simpleType name="status">
+        <xsd:restriction base="xsd:string">
+            <xsd:enumeration value="DONE"/>
+            <xsd:enumeration value="DONE_WITH_ERRORS"/>
+            <xsd:enumeration value="DOWNLOADING"/>
+            <xsd:enumeration value="ERROR"/>
+            <xsd:enumeration value="NOT_STARTED"/>
+            <xsd:enumeration value="RUNNING"/>
+        </xsd:restriction>
+     </xsd:simpleType>
+    <xsd:simpleType name="errorType">
+        <xsd:restriction base="xsd:string">
+            <xsd:enumeration value="CONVERT_ERROR"/>
+            <xsd:enumeration value="SERVICE_ERROR"/>
+        </xsd:restriction>
+     </xsd:simpleType>
+    <xsd:complexType name="importError">
+        <xsd:sequence>
+            <xsd:element name="errorType" type="errorType" minOccurs="1" maxOccurs="1"  readOnly="false">
+            </xsd:element>
+            <xsd:element name="lineNumber" type="xsd:long" minOccurs="1" maxOccurs="1"  readOnly="false">
+            </xsd:element>
+            <xsd:element name="bean" type="xsd:string" minOccurs="1" maxOccurs="1"  readOnly="false">
+            </xsd:element>
+            <xsd:element name="message" type="xsd:string" minOccurs="1" maxOccurs="1"  readOnly="false">
+            </xsd:element>
+            <xsd:element name="exceptionClass" type="xsd:string" minOccurs="1" maxOccurs="1"  readOnly="false">
+            </xsd:element>
+        </xsd:sequence>
+    </xsd:complexType>
+    <xsd:complexType name="fielddto">
+        <xsd:sequence>
+            <xsd:element name="id" type="xsd:long" minOccurs="1" maxOccurs="1"  readOnly="false">
+            </xsd:element>
+            <xsd:element name="name" type="xsd:string" minOccurs="1" maxOccurs="1"  readOnly="false">
+            </xsd:element>
+            <xsd:element name="fieldType" type="fieldType" minOccurs="1" maxOccurs="1"  readOnly="false">
+            </xsd:element>
+            <xsd:element name="start" type="xsd:long" minOccurs="0" maxOccurs="1"  readOnly="false">
+            </xsd:element>
+            <xsd:element name="size" type="xsd:long" minOccurs="0" maxOccurs="1"  readOnly="false">
+            </xsd:element>
+            <xsd:element name="maskPattern" type="xsd:string" minOccurs="0" maxOccurs="1"  readOnly="false">
+            </xsd:element>
+        </xsd:sequence>
+    </xsd:complexType>
+    <xsd:complexType name="hookdto">
+        <xsd:sequence>
+            <xsd:element name="hookFunction" type="hookFunction" minOccurs="1" maxOccurs="1"  readOnly="false">
+            </xsd:element>
+            <xsd:element name="script" type="xsd:string" minOccurs="1" maxOccurs="1"  readOnly="false">
+            </xsd:element>
+        </xsd:sequence>
+    </xsd:complexType>
+    <xsd:complexType name="layoutdto">
+        <xsd:sequence>
+            <xsd:element name="id" type="xsd:long" minOccurs="1" maxOccurs="1"  readOnly="false">
+            </xsd:element>
+            <xsd:element name="description" type="xsd:string" minOccurs="1" maxOccurs="1"  readOnly="false">
+            </xsd:element>
+            <xsd:element name="fileFormat" type="fileFormat" minOccurs="1" maxOccurs="1"  readOnly="false">
+            </xsd:element>
+            <xsd:element name="errorStrategy" type="errorStrategy" minOccurs="1" maxOccurs="1"  readOnly="false">
+            </xsd:element>
+            <xsd:element name="delimiter" type="xsd:string" minOccurs="0" maxOccurs="1"  readOnly="false">
+            </xsd:element>
+            <xsd:element name="skipLines" type="xsd:long" minOccurs="1" maxOccurs="1"  readOnly="false">
+            </xsd:element>
+            <!-- collection wrapper for fields -->
+            <xsd:element name="fields" minOccurs="1" maxOccurs="1">
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element name="item" type="fielddto" minOccurs="1" maxOccurs="unbounded"/>
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>
+            <!-- collection wrapper for hooks -->
+            <xsd:element name="hooks" minOccurs="0" maxOccurs="1">
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element name="item" type="hookdto" minOccurs="0" maxOccurs="unbounded"/>
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>
+        </xsd:sequence>
+    </xsd:complexType>
+    <xsd:complexType name="importReport">
+        <xsd:sequence>
+            <xsd:element name="id" type="xsd:string" minOccurs="1" maxOccurs="1"  readOnly="false">
+            </xsd:element>
+            <xsd:element name="startTime" type="xsd:dateTime" minOccurs="1" maxOccurs="1"  readOnly="false">
+            </xsd:element>
+            <xsd:element name="endTime" type="xsd:dateTime" minOccurs="1" maxOccurs="1"  readOnly="false">
+            </xsd:element>
+            <xsd:element name="uri" type="xsd:string" minOccurs="1" maxOccurs="1"  readOnly="false">
+            </xsd:element>
+            <xsd:element name="beanClass" type="xsd:string" minOccurs="1" maxOccurs="1"  readOnly="false">
+            </xsd:element>
+            <xsd:element name="serviceClass" type="xsd:string" minOccurs="1" maxOccurs="1"  readOnly="false">
+            </xsd:element>
+            <xsd:element name="layout" type="layoutdto" minOccurs="1" maxOccurs="1"  readOnly="false">
+            </xsd:element>
+            <xsd:element name="sucessCount" type="xsd:long" minOccurs="1" maxOccurs="1"  readOnly="false">
+            </xsd:element>
+            <xsd:element name="errorsCount" type="xsd:long" minOccurs="1" maxOccurs="1"  readOnly="false">
+            </xsd:element>
+            <xsd:element name="filteredCount" type="xsd:long" minOccurs="1" maxOccurs="1"  readOnly="false">
+            </xsd:element>
+            <xsd:element name="skippedCount" type="xsd:long" minOccurs="1" maxOccurs="1"  readOnly="false">
+            </xsd:element>
+            <!-- collection wrapper for importErrors -->
+            <xsd:element name="importErrors" minOccurs="0" maxOccurs="1">
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element name="item" type="importError" minOccurs="0" maxOccurs="unbounded"/>
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>
+        </xsd:sequence>
+    </xsd:complexType>
+    <xsd:complexType name="exportEventStatus">
+        <xsd:sequence>
+            <xsd:element name="importerId" type="xsd:string" minOccurs="1" maxOccurs="1"  readOnly="false">
+            </xsd:element>
+            <xsd:element name="eventType" type="eventType" minOccurs="1" maxOccurs="1"  readOnly="false">
+            </xsd:element>
+            <xsd:element name="recordCount" type="xsd:long" minOccurs="1" maxOccurs="1"  readOnly="false">
+            </xsd:element>
+        </xsd:sequence>
+    </xsd:complexType>
+    <xsd:complexType name="importEventStatus">
+        <xsd:sequence>
+            <xsd:element name="importerId" type="xsd:string" minOccurs="1" maxOccurs="1"  readOnly="false">
+            </xsd:element>
+            <xsd:element name="eventType" type="eventType" minOccurs="1" maxOccurs="1"  readOnly="false">
+            </xsd:element>
+            <xsd:element name="status" type="status" minOccurs="1" maxOccurs="1"  readOnly="false">
+            </xsd:element>
+            <xsd:element name="errorMessage" type="xsd:string" minOccurs="0" maxOccurs="1"  readOnly="false">
+            </xsd:element>
+            <xsd:element name="recordCount" type="xsd:long" minOccurs="1" maxOccurs="1"  readOnly="false">
+            </xsd:element>
+            <xsd:element name="importReport" type="importReport" minOccurs="0" maxOccurs="1"  readOnly="false">
+            </xsd:element>
+        </xsd:sequence>
+    </xsd:complexType>
+    <xsd:complexType name="exportConfig">
+        <xsd:sequence>
+            <xsd:element name="uri" type="xsd:string" minOccurs="1" maxOccurs="1"  readOnly="false">
+            </xsd:element>
+            <xsd:element name="layout" type="layoutdto" minOccurs="1" maxOccurs="1"  readOnly="false">
+            </xsd:element>
+            <xsd:element name="async" type="xsd:boolean" minOccurs="1" maxOccurs="1"  readOnly="false">
+            </xsd:element>
+            <xsd:element name="errorStrategy" type="xsd:string" minOccurs="1" maxOccurs="1"  readOnly="false">
+            </xsd:element>
+        </xsd:sequence>
+    </xsd:complexType>
+    <xsd:complexType name="importConfig">
+        <xsd:sequence>
+            <xsd:element name="uri" type="xsd:string" minOccurs="1" maxOccurs="1"  readOnly="false">
+            </xsd:element>
+            <xsd:element name="layout" type="layoutdto" minOccurs="1" maxOccurs="1"  readOnly="false">
+            </xsd:element>
+            <xsd:element name="async" type="xsd:boolean" minOccurs="1" maxOccurs="1"  readOnly="false">
+            </xsd:element>
+            <xsd:element name="batchSize" type="xsd:long" minOccurs="1" maxOccurs="1"  readOnly="false">
+            </xsd:element>
+            <xsd:element name="errorStrategy" type="errorStrategy" minOccurs="1" maxOccurs="1"  readOnly="false">
+            </xsd:element>
+        </xsd:sequence>
+    </xsd:complexType>
+    <xsd:complexType name="dependency">
+        <xsd:sequence>
+            <xsd:element name="domain" type="xsd:string" minOccurs="1" maxOccurs="1"  readOnly="false">
+            </xsd:element>
+            <xsd:element name="service" type="xsd:string" minOccurs="1" maxOccurs="1"  readOnly="false">
+            </xsd:element>
+            <xsd:element name="version" type="xsd:string" minOccurs="1" maxOccurs="1"  readOnly="false">
+            </xsd:element>
+        </xsd:sequence>
+    </xsd:complexType>
+    <xsd:simpleType name="uuid">
+        <xsd:restriction base="xsd:string">
+        	<xsd:pattern value="[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}" />
+        </xsd:restriction>
+     </xsd:simpleType>
+    
+    <!-- Message payload elements for signals -->
+    
+    <!-- Message input/output elements for commands -->
+    <xsd:element name="updateMergePedido">
+        <xsd:complexType/>
+    </xsd:element>
+    <xsd:element name="exportProduto">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element name="config" type="exportConfig" minOccurs="1" maxOccurs="1"  readOnly="false">
+                </xsd:element>
+            </xsd:sequence>
+        </xsd:complexType>
+    </xsd:element>
+    <xsd:element name="exportProdutoOutput">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element name="exportJobId" type="xsd:string" minOccurs="1" maxOccurs="1"  readOnly="false">
+                </xsd:element>
+            </xsd:sequence>
+        </xsd:complexType>
+    </xsd:element>
+    <xsd:element name="retrieveProduto">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element name="id" type="xsd:uuid" minOccurs="1" maxOccurs="1"  readOnly="false">
+                </xsd:element>
+            </xsd:sequence>
+        </xsd:complexType>
+    </xsd:element>
+    <xsd:element name="exportItemPedido">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element name="config" type="exportConfig" minOccurs="1" maxOccurs="1"  readOnly="false">
+                </xsd:element>
+            </xsd:sequence>
+        </xsd:complexType>
+    </xsd:element>
+    <xsd:element name="exportItemPedidoOutput">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element name="exportJobId" type="xsd:string" minOccurs="1" maxOccurs="1"  readOnly="false">
+                </xsd:element>
+            </xsd:sequence>
+        </xsd:complexType>
+    </xsd:element>
+    <xsd:element name="updateMergeCliente">
+        <xsd:complexType/>
+    </xsd:element>
+    <xsd:element name="importMovimentoEstoque">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element name="config" type="importConfig" minOccurs="1" maxOccurs="1"  readOnly="false">
+                </xsd:element>
+            </xsd:sequence>
+        </xsd:complexType>
+    </xsd:element>
+    <xsd:element name="importMovimentoEstoqueOutput">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element name="importJobId" type="xsd:string" minOccurs="1" maxOccurs="1"  readOnly="false">
+                </xsd:element>
+            </xsd:sequence>
+        </xsd:complexType>
+    </xsd:element>
+    <xsd:element name="refreshStatusCredito">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element name="idCliente" type="xsd:string" minOccurs="1" maxOccurs="1"  readOnly="false">
+                </xsd:element>
+            </xsd:sequence>
+        </xsd:complexType>
+    </xsd:element>
+    <xsd:element name="refreshStatusCreditoOutput">
+        <xsd:complexType>
+            <xsd:sequence>
+            </xsd:sequence>
+        </xsd:complexType>
+    </xsd:element>
+    <xsd:element name="createMergeCliente">
+        <xsd:complexType/>
+    </xsd:element>
+    <xsd:element name="exportMovimentoEstoque">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element name="config" type="exportConfig" minOccurs="1" maxOccurs="1"  readOnly="false">
+                </xsd:element>
+            </xsd:sequence>
+        </xsd:complexType>
+    </xsd:element>
+    <xsd:element name="exportMovimentoEstoqueOutput">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element name="exportJobId" type="xsd:string" minOccurs="1" maxOccurs="1"  readOnly="false">
+                </xsd:element>
+            </xsd:sequence>
+        </xsd:complexType>
+    </xsd:element>
+    <xsd:element name="createMovimentoEstoque">
+        <xsd:complexType/>
+    </xsd:element>
+    <xsd:element name="updatePedido">
+        <xsd:complexType/>
+    </xsd:element>
+    <xsd:element name="updateProduto">
+        <xsd:complexType/>
+    </xsd:element>
+    <xsd:element name="createBulkProduto">
+        <xsd:complexType>
+            <xsd:sequence>
+                <!-- collection wrapper for entities -->
+                <xsd:element name="entities" minOccurs="1" maxOccurs="1">
+                    <xsd:complexType>
+                        <xsd:sequence>
+                            <xsd:element name="item" type="produto" minOccurs="1" maxOccurs="unbounded"/>
+                        </xsd:sequence>
+                    </xsd:complexType>
+                </xsd:element>
+            </xsd:sequence>
+        </xsd:complexType>
+    </xsd:element>
+    <xsd:element name="createBulkProdutoOutput">
+        <xsd:complexType>
+            <xsd:sequence>
+            </xsd:sequence>
+        </xsd:complexType>
+    </xsd:element>
+    <xsd:element name="deleteProduto">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element name="id" type="xsd:uuid" minOccurs="1" maxOccurs="1"  readOnly="false">
+                </xsd:element>
+            </xsd:sequence>
+        </xsd:complexType>
+    </xsd:element>
+    <xsd:element name="listCliente">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element name="offset" type="xsd:long" minOccurs="1" maxOccurs="1"  readOnly="false">
+                </xsd:element>
+                <xsd:element name="size" type="xsd:long" minOccurs="1" maxOccurs="1"  readOnly="false">
+                </xsd:element>
+                <xsd:element name="orderBy" type="xsd:string" minOccurs="1" maxOccurs="1"  readOnly="false">
+                </xsd:element>
+                <xsd:element name="filter" type="xsd:string" minOccurs="1" maxOccurs="1"  readOnly="false">
+                </xsd:element>
+                <!-- collection wrapper for displayFields -->
+                <xsd:element name="displayFields" minOccurs="1" maxOccurs="1">
+                    <xsd:complexType>
+                        <xsd:sequence>
+                            <xsd:element name="item" type="xsd:string" minOccurs="1" maxOccurs="unbounded"/>
+                        </xsd:sequence>
+                    </xsd:complexType>
+                </xsd:element>
+            </xsd:sequence>
+        </xsd:complexType>
+    </xsd:element>
+    <xsd:element name="listClienteOutput">
+        <xsd:complexType>
+            <xsd:sequence>
+                <!-- collection wrapper for contents -->
+                <xsd:element name="contents" minOccurs="1" maxOccurs="1">
+                    <xsd:complexType>
+                        <xsd:sequence>
+                            <xsd:element name="item" type="cliente" minOccurs="1" maxOccurs="unbounded"/>
+                        </xsd:sequence>
+                    </xsd:complexType>
+                </xsd:element>
+            </xsd:sequence>
+        </xsd:complexType>
+    </xsd:element>
+    <xsd:element name="createMergeMovimentoEstoque">
+        <xsd:complexType/>
+    </xsd:element>
+    <xsd:element name="importProduto">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element name="config" type="importConfig" minOccurs="1" maxOccurs="1"  readOnly="false">
+                </xsd:element>
+            </xsd:sequence>
+        </xsd:complexType>
+    </xsd:element>
+    <xsd:element name="importProdutoOutput">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element name="importJobId" type="xsd:string" minOccurs="1" maxOccurs="1"  readOnly="false">
+                </xsd:element>
+            </xsd:sequence>
+        </xsd:complexType>
+    </xsd:element>
+    <xsd:element name="getMetadata">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element name="metadataFormat" type="xsd:string" minOccurs="0" maxOccurs="1"  readOnly="false">
+                </xsd:element>
+            </xsd:sequence>
+        </xsd:complexType>
+    </xsd:element>
+    <xsd:element name="getMetadataOutput">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element name="metadata" type="xsd:string" minOccurs="1" maxOccurs="1"  readOnly="false">
+                </xsd:element>
+            </xsd:sequence>
+        </xsd:complexType>
+    </xsd:element>
+    <xsd:element name="createMergePedido">
+        <xsd:complexType/>
+    </xsd:element>
+    <xsd:element name="deleteMovimentoEstoque">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element name="id" type="xsd:uuid" minOccurs="1" maxOccurs="1"  readOnly="false">
+                </xsd:element>
+            </xsd:sequence>
+        </xsd:complexType>
+    </xsd:element>
+    <xsd:element name="refreshQtdPedidosCliente">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element name="idCliente" type="xsd:string" minOccurs="1" maxOccurs="1"  readOnly="false">
+                </xsd:element>
+            </xsd:sequence>
+        </xsd:complexType>
+    </xsd:element>
+    <xsd:element name="refreshQtdPedidosClienteOutput">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element name="qtd" type="xsd:long" minOccurs="1" maxOccurs="1"  readOnly="false">
+                </xsd:element>
+            </xsd:sequence>
+        </xsd:complexType>
+    </xsd:element>
+    <xsd:element name="listItemPedido">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element name="offset" type="xsd:long" minOccurs="1" maxOccurs="1"  readOnly="false">
+                </xsd:element>
+                <xsd:element name="size" type="xsd:long" minOccurs="1" maxOccurs="1"  readOnly="false">
+                </xsd:element>
+                <xsd:element name="orderBy" type="xsd:string" minOccurs="1" maxOccurs="1"  readOnly="false">
+                </xsd:element>
+                <xsd:element name="filter" type="xsd:string" minOccurs="1" maxOccurs="1"  readOnly="false">
+                </xsd:element>
+                <!-- collection wrapper for displayFields -->
+                <xsd:element name="displayFields" minOccurs="1" maxOccurs="1">
+                    <xsd:complexType>
+                        <xsd:sequence>
+                            <xsd:element name="item" type="xsd:string" minOccurs="1" maxOccurs="unbounded"/>
+                        </xsd:sequence>
+                    </xsd:complexType>
+                </xsd:element>
+            </xsd:sequence>
+        </xsd:complexType>
+    </xsd:element>
+    <xsd:element name="listItemPedidoOutput">
+        <xsd:complexType>
+            <xsd:sequence>
+                <!-- collection wrapper for contents -->
+                <xsd:element name="contents" minOccurs="1" maxOccurs="1">
+                    <xsd:complexType>
+                        <xsd:sequence>
+                            <xsd:element name="item" type="itemPedido" minOccurs="1" maxOccurs="unbounded"/>
+                        </xsd:sequence>
+                    </xsd:complexType>
+                </xsd:element>
+            </xsd:sequence>
+        </xsd:complexType>
+    </xsd:element>
+    <xsd:element name="updateMergeItemPedido">
+        <xsd:complexType/>
+    </xsd:element>
+    <xsd:element name="createMergeItemPedido">
+        <xsd:complexType/>
+    </xsd:element>
+    <xsd:element name="createProduto">
+        <xsd:complexType/>
+    </xsd:element>
+    <xsd:element name="getSaldo">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element name="idProduto" type="xsd:string" minOccurs="1" maxOccurs="1"  readOnly="false">
+                </xsd:element>
+            </xsd:sequence>
+        </xsd:complexType>
+    </xsd:element>
+    <xsd:element name="getSaldoOutput">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element name="qtd" type="xsd:double" minOccurs="1" maxOccurs="1"  readOnly="false">
+                </xsd:element>
+            </xsd:sequence>
+        </xsd:complexType>
+    </xsd:element>
+    <xsd:element name="importPedido">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element name="config" type="importConfig" minOccurs="1" maxOccurs="1"  readOnly="false">
+                </xsd:element>
+            </xsd:sequence>
+        </xsd:complexType>
+    </xsd:element>
+    <xsd:element name="importPedidoOutput">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element name="importJobId" type="xsd:string" minOccurs="1" maxOccurs="1"  readOnly="false">
+                </xsd:element>
+            </xsd:sequence>
+        </xsd:complexType>
+    </xsd:element>
+    <xsd:element name="createBulkItemPedido">
+        <xsd:complexType>
+            <xsd:sequence>
+                <!-- collection wrapper for entities -->
+                <xsd:element name="entities" minOccurs="1" maxOccurs="1">
+                    <xsd:complexType>
+                        <xsd:sequence>
+                            <xsd:element name="item" type="itemPedido" minOccurs="1" maxOccurs="unbounded"/>
+                        </xsd:sequence>
+                    </xsd:complexType>
+                </xsd:element>
+            </xsd:sequence>
+        </xsd:complexType>
+    </xsd:element>
+    <xsd:element name="createBulkItemPedidoOutput">
+        <xsd:complexType>
+            <xsd:sequence>
+            </xsd:sequence>
+        </xsd:complexType>
+    </xsd:element>
+    <xsd:element name="retrieveItemPedido">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element name="id" type="xsd:uuid" minOccurs="1" maxOccurs="1"  readOnly="false">
+                </xsd:element>
+            </xsd:sequence>
+        </xsd:complexType>
+    </xsd:element>
+    <xsd:element name="createBulkPedido">
+        <xsd:complexType>
+            <xsd:sequence>
+                <!-- collection wrapper for entities -->
+                <xsd:element name="entities" minOccurs="1" maxOccurs="1">
+                    <xsd:complexType>
+                        <xsd:sequence>
+                            <xsd:element name="item" type="pedido" minOccurs="1" maxOccurs="unbounded"/>
+                        </xsd:sequence>
+                    </xsd:complexType>
+                </xsd:element>
+            </xsd:sequence>
+        </xsd:complexType>
+    </xsd:element>
+    <xsd:element name="createBulkPedidoOutput">
+        <xsd:complexType>
+            <xsd:sequence>
+            </xsd:sequence>
+        </xsd:complexType>
+    </xsd:element>
+    <xsd:element name="retrieveCliente">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element name="id" type="xsd:uuid" minOccurs="1" maxOccurs="1"  readOnly="false">
+                </xsd:element>
+            </xsd:sequence>
+        </xsd:complexType>
+    </xsd:element>
+    <xsd:element name="createItemPedido">
+        <xsd:complexType/>
+    </xsd:element>
+    <xsd:element name="updateMergeProduto">
+        <xsd:complexType/>
+    </xsd:element>
+    <xsd:element name="exportCliente">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element name="config" type="exportConfig" minOccurs="1" maxOccurs="1"  readOnly="false">
+                </xsd:element>
+            </xsd:sequence>
+        </xsd:complexType>
+    </xsd:element>
+    <xsd:element name="exportClienteOutput">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element name="exportJobId" type="xsd:string" minOccurs="1" maxOccurs="1"  readOnly="false">
+                </xsd:element>
+            </xsd:sequence>
+        </xsd:complexType>
+    </xsd:element>
+    <xsd:element name="getGastoTotalCliente">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element name="idCliente" type="xsd:string" minOccurs="1" maxOccurs="1"  readOnly="false">
+                </xsd:element>
+            </xsd:sequence>
+        </xsd:complexType>
+    </xsd:element>
+    <xsd:element name="getGastoTotalClienteOutput">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element name="total" type="xsd:double" minOccurs="1" maxOccurs="1"  readOnly="false">
+                </xsd:element>
+            </xsd:sequence>
+        </xsd:complexType>
+    </xsd:element>
+    <xsd:element name="listPedido">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element name="offset" type="xsd:long" minOccurs="1" maxOccurs="1"  readOnly="false">
+                </xsd:element>
+                <xsd:element name="size" type="xsd:long" minOccurs="1" maxOccurs="1"  readOnly="false">
+                </xsd:element>
+                <xsd:element name="orderBy" type="xsd:string" minOccurs="1" maxOccurs="1"  readOnly="false">
+                </xsd:element>
+                <xsd:element name="filter" type="xsd:string" minOccurs="1" maxOccurs="1"  readOnly="false">
+                </xsd:element>
+                <!-- collection wrapper for displayFields -->
+                <xsd:element name="displayFields" minOccurs="1" maxOccurs="1">
+                    <xsd:complexType>
+                        <xsd:sequence>
+                            <xsd:element name="item" type="xsd:string" minOccurs="1" maxOccurs="unbounded"/>
+                        </xsd:sequence>
+                    </xsd:complexType>
+                </xsd:element>
+            </xsd:sequence>
+        </xsd:complexType>
+    </xsd:element>
+    <xsd:element name="listPedidoOutput">
+        <xsd:complexType>
+            <xsd:sequence>
+                <!-- collection wrapper for contents -->
+                <xsd:element name="contents" minOccurs="1" maxOccurs="1">
+                    <xsd:complexType>
+                        <xsd:sequence>
+                            <xsd:element name="item" type="pedido" minOccurs="1" maxOccurs="unbounded"/>
+                        </xsd:sequence>
+                    </xsd:complexType>
+                </xsd:element>
+            </xsd:sequence>
+        </xsd:complexType>
+    </xsd:element>
+    <xsd:element name="createMergeProduto">
+        <xsd:complexType/>
+    </xsd:element>
+    <xsd:element name="updateCliente">
+        <xsd:complexType/>
+    </xsd:element>
+    <xsd:element name="createBulkCliente">
+        <xsd:complexType>
+            <xsd:sequence>
+                <!-- collection wrapper for entities -->
+                <xsd:element name="entities" minOccurs="1" maxOccurs="1">
+                    <xsd:complexType>
+                        <xsd:sequence>
+                            <xsd:element name="item" type="cliente" minOccurs="1" maxOccurs="unbounded"/>
+                        </xsd:sequence>
+                    </xsd:complexType>
+                </xsd:element>
+            </xsd:sequence>
+        </xsd:complexType>
+    </xsd:element>
+    <xsd:element name="createBulkClienteOutput">
+        <xsd:complexType>
+            <xsd:sequence>
+            </xsd:sequence>
+        </xsd:complexType>
+    </xsd:element>
+    <xsd:element name="importItemPedido">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element name="config" type="importConfig" minOccurs="1" maxOccurs="1"  readOnly="false">
+                </xsd:element>
+            </xsd:sequence>
+        </xsd:complexType>
+    </xsd:element>
+    <xsd:element name="importItemPedidoOutput">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element name="importJobId" type="xsd:string" minOccurs="1" maxOccurs="1"  readOnly="false">
+                </xsd:element>
+            </xsd:sequence>
+        </xsd:complexType>
+    </xsd:element>
+    <xsd:element name="deleteItemPedido">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element name="id" type="xsd:uuid" minOccurs="1" maxOccurs="1"  readOnly="false">
+                </xsd:element>
+            </xsd:sequence>
+        </xsd:complexType>
+    </xsd:element>
+    <xsd:element name="importCliente">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element name="config" type="importConfig" minOccurs="1" maxOccurs="1"  readOnly="false">
+                </xsd:element>
+            </xsd:sequence>
+        </xsd:complexType>
+    </xsd:element>
+    <xsd:element name="importClienteOutput">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element name="importJobId" type="xsd:string" minOccurs="1" maxOccurs="1"  readOnly="false">
+                </xsd:element>
+            </xsd:sequence>
+        </xsd:complexType>
+    </xsd:element>
+    <xsd:element name="deleteCliente">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element name="id" type="xsd:uuid" minOccurs="1" maxOccurs="1"  readOnly="false">
+                </xsd:element>
+            </xsd:sequence>
+        </xsd:complexType>
+    </xsd:element>
+    <xsd:element name="retrieveMovimentoEstoque">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element name="id" type="xsd:uuid" minOccurs="1" maxOccurs="1"  readOnly="false">
+                </xsd:element>
+            </xsd:sequence>
+        </xsd:complexType>
+    </xsd:element>
+    <xsd:element name="listProduto">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element name="offset" type="xsd:long" minOccurs="1" maxOccurs="1"  readOnly="false">
+                </xsd:element>
+                <xsd:element name="size" type="xsd:long" minOccurs="1" maxOccurs="1"  readOnly="false">
+                </xsd:element>
+                <xsd:element name="orderBy" type="xsd:string" minOccurs="1" maxOccurs="1"  readOnly="false">
+                </xsd:element>
+                <xsd:element name="filter" type="xsd:string" minOccurs="1" maxOccurs="1"  readOnly="false">
+                </xsd:element>
+                <!-- collection wrapper for displayFields -->
+                <xsd:element name="displayFields" minOccurs="1" maxOccurs="1">
+                    <xsd:complexType>
+                        <xsd:sequence>
+                            <xsd:element name="item" type="xsd:string" minOccurs="1" maxOccurs="unbounded"/>
+                        </xsd:sequence>
+                    </xsd:complexType>
+                </xsd:element>
+            </xsd:sequence>
+        </xsd:complexType>
+    </xsd:element>
+    <xsd:element name="listProdutoOutput">
+        <xsd:complexType>
+            <xsd:sequence>
+                <!-- collection wrapper for contents -->
+                <xsd:element name="contents" minOccurs="1" maxOccurs="1">
+                    <xsd:complexType>
+                        <xsd:sequence>
+                            <xsd:element name="item" type="produto" minOccurs="1" maxOccurs="unbounded"/>
+                        </xsd:sequence>
+                    </xsd:complexType>
+                </xsd:element>
+            </xsd:sequence>
+        </xsd:complexType>
+    </xsd:element>
+    <xsd:element name="updateItemPedido">
+        <xsd:complexType/>
+    </xsd:element>
+    <xsd:element name="listMovimentoEstoque">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element name="offset" type="xsd:long" minOccurs="1" maxOccurs="1"  readOnly="false">
+                </xsd:element>
+                <xsd:element name="size" type="xsd:long" minOccurs="1" maxOccurs="1"  readOnly="false">
+                </xsd:element>
+                <xsd:element name="orderBy" type="xsd:string" minOccurs="1" maxOccurs="1"  readOnly="false">
+                </xsd:element>
+                <xsd:element name="filter" type="xsd:string" minOccurs="1" maxOccurs="1"  readOnly="false">
+                </xsd:element>
+                <!-- collection wrapper for displayFields -->
+                <xsd:element name="displayFields" minOccurs="1" maxOccurs="1">
+                    <xsd:complexType>
+                        <xsd:sequence>
+                            <xsd:element name="item" type="xsd:string" minOccurs="1" maxOccurs="unbounded"/>
+                        </xsd:sequence>
+                    </xsd:complexType>
+                </xsd:element>
+            </xsd:sequence>
+        </xsd:complexType>
+    </xsd:element>
+    <xsd:element name="listMovimentoEstoqueOutput">
+        <xsd:complexType>
+            <xsd:sequence>
+                <!-- collection wrapper for contents -->
+                <xsd:element name="contents" minOccurs="1" maxOccurs="1">
+                    <xsd:complexType>
+                        <xsd:sequence>
+                            <xsd:element name="item" type="movimentoEstoque" minOccurs="1" maxOccurs="unbounded"/>
+                        </xsd:sequence>
+                    </xsd:complexType>
+                </xsd:element>
+            </xsd:sequence>
+        </xsd:complexType>
+    </xsd:element>
+    <xsd:element name="getDependencies">
+        <xsd:complexType/>
+    </xsd:element>
+    <xsd:element name="getDependenciesOutput">
+        <xsd:complexType>
+            <xsd:sequence>
+                <!-- collection wrapper for dependencies -->
+                <xsd:element name="dependencies" minOccurs="1" maxOccurs="1">
+                    <xsd:complexType>
+                        <xsd:sequence>
+                            <xsd:element name="item" type="dependency" minOccurs="1" maxOccurs="unbounded"/>
+                        </xsd:sequence>
+                    </xsd:complexType>
+                </xsd:element>
+            </xsd:sequence>
+        </xsd:complexType>
+    </xsd:element>
+    <xsd:element name="deletePedido">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element name="id" type="xsd:uuid" minOccurs="1" maxOccurs="1"  readOnly="false">
+                </xsd:element>
+            </xsd:sequence>
+        </xsd:complexType>
+    </xsd:element>
+    <xsd:element name="exportPedido">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element name="config" type="exportConfig" minOccurs="1" maxOccurs="1"  readOnly="false">
+                </xsd:element>
+            </xsd:sequence>
+        </xsd:complexType>
+    </xsd:element>
+    <xsd:element name="exportPedidoOutput">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element name="exportJobId" type="xsd:string" minOccurs="1" maxOccurs="1"  readOnly="false">
+                </xsd:element>
+            </xsd:sequence>
+        </xsd:complexType>
+    </xsd:element>
+    <xsd:element name="retrievePedido">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element name="id" type="xsd:uuid" minOccurs="1" maxOccurs="1"  readOnly="false">
+                </xsd:element>
+            </xsd:sequence>
+        </xsd:complexType>
+    </xsd:element>
+    <xsd:element name="createCliente">
+        <xsd:complexType/>
+    </xsd:element>
+    <xsd:element name="createPedido">
+        <xsd:complexType/>
+    </xsd:element>
+    <xsd:element name="createBulkMovimentoEstoque">
+        <xsd:complexType>
+            <xsd:sequence>
+                <!-- collection wrapper for entities -->
+                <xsd:element name="entities" minOccurs="1" maxOccurs="1">
+                    <xsd:complexType>
+                        <xsd:sequence>
+                            <xsd:element name="item" type="movimentoEstoque" minOccurs="1" maxOccurs="unbounded"/>
+                        </xsd:sequence>
+                    </xsd:complexType>
+                </xsd:element>
+            </xsd:sequence>
+        </xsd:complexType>
+    </xsd:element>
+    <xsd:element name="createBulkMovimentoEstoqueOutput">
+        <xsd:complexType>
+            <xsd:sequence>
+            </xsd:sequence>
+        </xsd:complexType>
+    </xsd:element>
+    <xsd:element name="updateMergeMovimentoEstoque">
+        <xsd:complexType/>
+    </xsd:element>
+    <xsd:element name="updateMovimentoEstoque">
+        <xsd:complexType/>
+    </xsd:element>
+</xsd:schema>
