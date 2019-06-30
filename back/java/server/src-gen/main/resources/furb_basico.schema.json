@@ -27,7 +27,7 @@
             		"type": "integer"
             	}
         	},
-        	"required" : ["nome","dataNascimento","cpf","qtPedidos"]
+        	"required" : ["nome","dataNascimento","cpf"]
         }
         ,
         "produto" : {

@@ -22,7 +22,7 @@
             </xsd:element>
             <xsd:element name="cpf" type="xsd:string" minOccurs="1" maxOccurs="1"  readOnly="false">
             </xsd:element>
-            <xsd:element name="qtPedidos" type="xsd:long" minOccurs="1" maxOccurs="1"  readOnly="false">
+            <xsd:element name="qtPedidos" type="xsd:long" minOccurs="0" maxOccurs="1"  readOnly="false">
             </xsd:element>
         </xsd:sequence>
     </xsd:complexType>

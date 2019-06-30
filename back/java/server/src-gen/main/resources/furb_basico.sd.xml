@@ -425,7 +425,7 @@
             <slot name="dataNascimento" type="date" optional="false" multivalued="false"/>
             <slot name="creditoHabilitado" type="boolean" optional="true" multivalued="false"/>
             <slot name="cpf" type="string" optional="false" multivalued="false"/>
-            <slot name="qtPedidos" type="integer" optional="false" multivalued="false"/>
+            <slot name="qtPedidos" type="integer" optional="true" multivalued="false"/>
         </record>
         <record name="produto">
             <slot name="id" type="string" format="uuid" optional="true" multivalued="false"/>

@@ -5,6 +5,7 @@ import { Cliente } from 'src/app/core/entities/cliente/cliente';
 import { ActivatedRoute, Router } from '@angular/router';
 import { catchError } from 'rxjs/operators';
 import { throwError } from 'rxjs';
+import { QueriesService } from 'src/app/core/queries/queries.service';
 
 @Component({
   selector: 'app-cliente-list',
@@ -20,7 +21,8 @@ export class ClienteListComponent implements OnInit {
     private clienteService: ClienteService,
     private messageService: MessageService,
     private router: Router,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private queriesService: QueriesService
     ) { }
 
   ngOnInit() {
@@ -62,6 +64,12 @@ export class ClienteListComponent implements OnInit {
 
   public editItem(cliente: Cliente) {
     this.router.navigate([`/cliente/edit/${cliente.id}`], { relativeTo: this.route });
+  }
+
+  public totalCliente(cliente: Cliente) {
+    this.queriesService.getGastoTotalCliente(cliente.id).subscribe((data: any) => {
+      alert("Gasto total do cliente: " + data.total);
+    });
   }
 
   public onRemoveConfirm(item: any) {

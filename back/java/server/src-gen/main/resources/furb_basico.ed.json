@@ -58,7 +58,7 @@
 				"qtPedidos": {
 					"name": "qtPedidos",
 					"type": "integer",
-					"optional": false,
+					"optional": true,
 					"hidden": false,
 					"multivalued": false,
 					"readOnly": false

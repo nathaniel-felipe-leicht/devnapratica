@@ -13,23 +13,6 @@ public class HandlerEstoqueImpl implements GetSaldo {
 	@Autowired
 	EstoqueRepositoryCustom estoqueRepositoryCustom;
 
-	
-	/*
-	 * @Override public RetornaEstoqueOutput retornaEstoque(RetornaEstoqueInput
-	 * request) {
-	 * 
-	 * RetornaEstoqueOutput dados = new RetornaEstoqueOutput();
-	 * 
-	 * Long qtdItensEncontrados =
-	 * estoqueRepositoryCustom.findQuantityById(request.idPedido);
-	 * 
-	 * if (qtdItensEncontrados == 0) { dados.message =
-	 * "Não foram encontrados produtos em estoque"; } else { dados.qtd =
-	 * qtdItensEncontrados; dados.message = "Estoque aprovado"; }
-	 * 
-	 * return dados; }
-	 */
-
 	@Override
 	public GetSaldoOutput getSaldo(GetSaldoInput request) {
 		
@@ -37,6 +20,6 @@ public class HandlerEstoqueImpl implements GetSaldo {
 		
 		out.qtd = estoqueRepositoryCustom.getSaldo(request.idProduto);
 		
-		return null;
+		return out;
 	}
 }

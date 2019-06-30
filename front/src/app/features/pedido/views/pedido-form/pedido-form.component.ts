@@ -12,6 +12,7 @@ import { ClienteService } from 'src/app/core/entities/cliente/cliente.service';
 import { Cliente } from 'src/app/core/entities/cliente/cliente';
 import { ItemPedidoService } from 'src/app/core/entities/itemPedido/itemPedido.service'
 import { ItemPedido } from 'src/app/core/entities/itemPedido/itemPedido';
+import { ActionsService } from 'src/app/core/actions/actions.service';
 
 @Component({
   selector: 'app-pedido-form',
@@ -39,7 +40,8 @@ export class PedidoFormComponent implements OnInit {
     private formBuilder: FormBuilder,
     private messageService: MessageService,
     private router: Router,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private actionsService: ActionsService
     ) { }
 
   
@@ -98,8 +100,14 @@ export class PedidoFormComponent implements OnInit {
       console.log(err);
       return throwError(err);
     })
-    ).subscribe(() => {
-      this.goBack();
+    ).subscribe((data) => {
+      console.log(data);
+
+      this.actionsService.refreshQtdPedidosCliente(data.cliente.id).subscribe( () => {
+        this.actionsService.refreshStatusCredito(data.cliente.id).subscribe( () => {
+          this.goBack();
+        });
+      });
       console.log(`Saved`);
     });
   }

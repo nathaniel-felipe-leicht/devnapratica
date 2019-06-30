@@ -63,7 +63,7 @@ service basico {
 		    "CPF do cliente"
 		    cpf: string
 		    "Quantidade de pedidos"
-		    qtPedidos: integer
+		    qtPedidos: integer?
 		}
 		
 		"Produto"

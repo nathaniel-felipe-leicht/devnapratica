@@ -6,7 +6,7 @@ create table cliente (
 	data_nascimento DATE NOT NULL /* dataNascimento */,
 	credito_habilitado BOOLEAN /* creditoHabilitado */,
 	cpf VARCHAR(255) NOT NULL,
-	qtPedidos INTEGER,
+	qt_pedidos INTEGER,
 	ext JSONB
 );
 

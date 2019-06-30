@@ -7,7 +7,7 @@ export class Cliente {
     public dataNascimento: string;
     public creditoHabilitado: string;
     public cpf: string;
-    public idFoto: string;
+    public qtPedidos: number;
     public createdBy?: string;
     public createdDate?: Date;
     public lastModifiedBy?: string;

@@ -1634,7 +1634,6 @@ definitions:
       - nome
       - dataNascimento
       - cpf
-      - qtPedidos
     properties:
       id:
         type: string

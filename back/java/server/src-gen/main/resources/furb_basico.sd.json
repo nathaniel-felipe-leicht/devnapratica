@@ -1221,7 +1221,7 @@
             },
             "qtPedidos" : {
                 "type": "integer",
-                "optional": false,
+                "optional": true,
                 "multivalued": false,
                 "readOnly": false
             }
@@ -2027,7 +2027,7 @@
                 },
                 "qtPedidos" : {
                     "type": "integer",
-                    "optional": false,
+                    "optional": true,
                     "multivalued": false,
                     "readOnly": false
                 }

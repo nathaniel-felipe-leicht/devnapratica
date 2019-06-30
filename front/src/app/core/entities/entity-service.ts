@@ -1,17 +1,15 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { catchError } from 'rxjs/operators/';
-import { throwError } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
+import { RequestHelper } from '../request.helper';
 
-export class EntityService<T> {
-  public headers: HttpHeaders;
-
+export class EntityService<T> extends RequestHelper {
   constructor(
     protected http: HttpClient,
     protected entityUrl: string,
   ) {
-    this.http = http;
+    super(
+      http
+    )
     this.entityUrl = entityUrl;
-    this.headers = new HttpHeaders().set('Authorization', 'Bearer afb37b1eb55b371471abbc9fa2e09f8f');
   }
 
   public list() {
@@ -32,17 +30,6 @@ export class EntityService<T> {
 
   public delete(id: any) {
     return this.http.delete<T[]>(`${this.entityUrl}/${id}`, {headers: this.headers}).pipe(this.defaultCatch());
-  }
-
-  public defaultCatch() {
-    return catchError((err: any) => {
-      if (err) {
-        const summary =  err.status ? String(err.status) : 'Error';
-        const detail = (err.error && err.error.message) || err.statusText || err.message || 'Error';
-        console.log(summary, detail);
-      }
-      return throwError(err);
-    });
   }
 }
 

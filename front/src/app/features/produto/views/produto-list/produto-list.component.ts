@@ -5,6 +5,7 @@ import { Produto } from 'src/app/core/entities/produto/produto';
 import { ActivatedRoute, Router } from '@angular/router';
 import { catchError } from 'rxjs/operators';
 import { throwError } from 'rxjs';
+import { QueriesService } from 'src/app/core/queries/queries.service';
 
 @Component({
   selector: 'app-produto-list',
@@ -19,6 +20,7 @@ export class ProdutoListComponent implements OnInit {
   constructor(
     private produtoService: ProdutoService,
     private messageService: MessageService,
+    private queriesService: QueriesService,
     private router: Router,
     private route: ActivatedRoute
     ) { }
@@ -60,6 +62,12 @@ export class ProdutoListComponent implements OnInit {
 
   public editProduto(produto: Produto) {
     this.router.navigate([`/produto/edit/${produto.id}`], { relativeTo: this.route });
+  }
+
+  public saldoProduto(produto: Produto) {
+    this.queriesService.getSaldo(produto.id).subscribe((data: any) => {
+        alert("Saldo: " + data.qtd);
+    });
   }
 
   public onRemoveConfirm(produto: any) {

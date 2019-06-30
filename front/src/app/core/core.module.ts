@@ -8,6 +8,8 @@ import { ItemPedidoModule } from './entities/itemPedido/itemPedido.module'
 import { FormsModule }   from '@angular/forms';
 import { ReactiveFormsModule } from '@angular/forms'; 
 import { AutoCompleteModule } from 'primeng/primeng';
+import { ActionsService } from './actions/actions.service';
+import { QueriesService } from './queries/queries.service';
 
 @NgModule({
   declarations: [],
@@ -21,6 +23,10 @@ import { AutoCompleteModule } from 'primeng/primeng';
     FormsModule,
     ReactiveFormsModule,
     AutoCompleteModule
-  ]
+  ],
+  providers: [
+      ActionsService,
+      QueriesService
+  ],
 })
 export class CoreModule { }

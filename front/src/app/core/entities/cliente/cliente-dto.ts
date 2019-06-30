@@ -4,7 +4,7 @@ export interface ClienteDto {
   dataNascimento: string;
   creditoHabilitado: string;
   cpf: string;
-  idFoto: string;
+  qtPedidos: number;
   createdBy?: string;
   createdDate?: Date;
   lastModifiedBy?: string;

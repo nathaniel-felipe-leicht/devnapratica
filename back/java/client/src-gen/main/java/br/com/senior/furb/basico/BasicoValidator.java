@@ -347,11 +347,6 @@ public class BasicoValidator {
     			throw new IllegalArgumentException("cpf is required");
     		}
     	}
-    	if (required) {
-    		if (toValidate.qtPedidos == null) {
-    			throw new IllegalArgumentException("qtPedidos is required");
-    		}
-    	}
     }
     /**
      * Validates the payload for required fields and valid values.

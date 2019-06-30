@@ -2023,7 +2023,6 @@ components:
         - nome
         - dataNascimento
         - cpf
-        - qtPedidos
       properties:
         id:
           type: string

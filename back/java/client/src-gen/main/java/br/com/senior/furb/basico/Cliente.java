@@ -132,11 +132,10 @@ public class Cliente {
     /** 
      * This convenience constructor allows initialization of all required fields.
      */
-    public Cliente(String nome, java.time.LocalDate dataNascimento, String cpf, Long qtPedidos) {
+    public Cliente(String nome, java.time.LocalDate dataNascimento, String cpf) {
         this.nome = nome;
         this.dataNascimento = dataNascimento;
         this.cpf = cpf;
-        this.qtPedidos = qtPedidos;
     }
     
     public void normalize(Map<String, Object> headers) {
